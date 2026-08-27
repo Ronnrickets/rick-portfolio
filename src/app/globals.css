@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Design system: "Nexus Core — Global Status" (see Nexus-Core-Global-Status-DESIGN.md)
+
+  The source spec only defines dark/glass tokens. Light mode below is an original
+  extension built to match: same core accent hues carried through for brand
+  consistency, with the primary/secondary/tertiary accents deepened slightly so
+  they stay legible on a light surface (the spec's neon values wash out on white).
+  Background is a soft mint-tinted off-white rather than plain white, as a quiet
+  nod back to the primary accent instead of a flat, disconnected swap.
+
+  Token mapping notes (documented since a few calls needed judgment):
+  - Dark mode's text-primary (#3E6A70, from the spec) is fairly low-contrast on
+    black, so it's used as --muted-foreground (timestamps, meta, de-emphasized
+    labels) rather than body copy.
+  - Dark mode's text-secondary (#5FE6CF) is the bright label/accent-text color,
+    matching how it reads in the spec's uppercase mono interface copy.
+  - Long-form body text (bio, descriptions) uses a near-white (dark mode) / near-
+    black (light mode) neutral for comfortable reading in both themes.
+  - "surface: #3FE8A8" in the spec conflicts with the written Elevation/Glass
+    recipe (a dark translucent gradient) — the prose recipe is treated as
+    authoritative, and #3FE8A8 is reserved for the primary accent/glow role.
+*/
+
+:root {
+  --background: #f5fbf9;
+  --foreground: #0b1613;
+
+  --font-system: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+
+  --muted: #e7f3f0;
+  --muted-foreground: #4b6b67;
+
+  --accent: #e1f1ec;
+  --accent-foreground: #0b1613;
+
+  --primary: #12b981;
+  --primary-foreground: #f5fbf9;
+
+  --secondary: #0e7c6b;
+  --secondary-foreground: #f5fbf9;
+
+  --tertiary: #b87400;
+
+  --card-from: rgba(255, 255, 255, 0.78);
+  --card-to: rgba(234, 248, 244, 0.68);
+  --card-foreground: var(--foreground);
+
+  --shell-from: rgba(255, 255, 255, 0.9);
+  --shell-to: rgba(224, 244, 238, 0.85);
+
+  --card-solid: #eef8f5;
+  --popover-solid: #ffffff;
+
+  --border: rgba(14, 90, 75, 0.16);
+  --border-strong: rgba(14, 90, 75, 0.32);
+  --input: rgba(14, 90, 75, 0.16);
+  --ring: #12b981;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --glow-primary: rgb(18, 185, 129);
+  --shell-inset-shadow: rgba(11, 22, 19, 0.06);
+  --surface-hairline: rgba(125, 238, 222, 0.5);
+  --grid-line: rgba(14, 90, 75, 0.08);
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #f2fbf8;
+
+  --muted: #0a1416;
+  --muted-foreground: #6b939a;
+
+  --accent: #0d2224;
+  --accent-foreground: #f2fbf8;
+
+  --primary: #3fe8a8;
+  --primary-foreground: #04140f;
+
+  --secondary: #5fe6cf;
+  --secondary-foreground: #04201c;
+
+  --tertiary: #ffb454;
+
+  --card-from: rgba(10, 30, 38, 0.92);
+  --card-to: rgba(4, 15, 20, 0.94);
+  --card-foreground: var(--foreground);
+
+  --shell-from: rgba(10, 30, 38, 0.92);
+  --shell-to: rgba(4, 15, 20, 0.94);
+
+  --card-solid: #0a1a1c;
+  --popover-solid: #0a1a1c;
+
+  --border: rgba(95, 230, 207, 0.22);
+  --border-strong: rgba(95, 230, 207, 0.4);
+  --input: rgba(95, 230, 207, 0.22);
+  --ring: #3fe8a8;
+
+  --glow-primary: rgb(63, 232, 168);
+  --shell-inset-shadow: rgba(0, 0, 0, 0.55);
+  --surface-hairline: rgba(125, 238, 222, 0.04);
+  --grid-line: rgba(95, 230, 207, 0.07);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-tertiary: var(--tertiary);
+  --color-card: var(--card-solid);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover-solid);
+  --color-popover-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --font-sans: var(--font-system);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* body-md, per the design spec — used for labels, nav, badges, meta/interface copy */
+.text-body-md {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 19.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Strong, full-bleed grid texture — reinforces "Grid: Strong" / "Content Width: Full Bleed" */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/*
+  Gradient border shell (per Elevation & Depth > Techniques).
+  Outer wrapper carries the gradient "hairline frame"; the inner surface
+  (rendered by consuming components) sits inset with a smaller radius so
+  the gradient only reads as an edge, not a fill.
+*/
+.glass-shell {
+  position: relative;
+  border-radius: var(--radius-xl);
+  padding: 1px;
+  background: linear-gradient(var(--shell-from), var(--shell-to));
+}
+
+.glass-surface {
+  border-radius: calc(var(--radius-xl) - 2px);
+  background: linear-gradient(var(--card-from), var(--card-to));
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 0.67px solid var(--border);
+  box-shadow:
+    var(--shell-inset-shadow) 0px 0px 0px 1px inset,
+    var(--surface-hairline) 0px 1px 1px 0px;
+}
+
+.glass-surface--interactive {
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.glass-surface--interactive:hover {
+  border-color: var(--border-strong);
+  box-shadow:
+    var(--glow-primary) 0px 0px 9px 0px,
+    var(--shell-inset-shadow) 0px 0px 0px 2px inset;
+}
+
+::selection {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
