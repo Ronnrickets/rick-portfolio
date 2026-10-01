@@ -65,6 +65,28 @@ npm run build    # production build
 npm run start    # run the production build
 ```
 
+## Public visit counter (Supabase)
+
+The footer records and displays aggregate visits through a server-side API route. Raw IP
+addresses are never stored or sent to Supabase. The route creates an HMAC-SHA256 fingerprint
+from the visitor IP and the current date in Asia/Manila, so one public IP counts at most once per day and
+cannot be correlated across days from the stored value alone.
+
+1. Open your Supabase project, select **SQL Editor**, and run
+   [`supabase/visit-counter.sql`](supabase/visit-counter.sql).
+2. Copy `.env.example` to `.env.local` and fill in the three values. Generate a unique
+   `VISITOR_HASH_SECRET` using the command included in `.env.example`.
+3. In Vercel, add the same three variables under **Project Settings > Environment Variables**
+   and redeploy the site.
+
+`SUPABASE_SECRET_KEY` and `VISITOR_HASH_SECRET` are server-only secrets. Never prefix them
+with `NEXT_PUBLIC_`, commit `.env.local`, or use them in a Client Component. Supabase RLS is
+enabled and browser roles receive no access to the visit table or its RPC function.
+
+During local development, the counter can return an unavailable-address error because there is
+no trusted deployment proxy providing a public IP. This is expected; test the complete flow in a
+Vercel preview or production deployment.
+
 ## Structure
 
 ```

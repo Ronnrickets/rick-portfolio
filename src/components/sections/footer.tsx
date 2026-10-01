@@ -1,12 +1,14 @@
 import { profile } from "@/lib/content"
+import { VisitorCounter } from "@/components/visitor-counter"
 
 export function Footer() {
   return (
     <footer>
       <div className="flex flex-col-reverse items-center gap-4 px-5 py-10 text-xs text-muted-foreground sm:flex-row sm:justify-between sm:px-8">
-        <p className="font-mono">
-          &copy; {new Date().getFullYear()} {profile.name}
-        </p>
+        <div className="flex items-center gap-3 font-mono">
+          <p>&copy; {new Date().getFullYear()} {profile.name}</p>
+          <VisitorCounter />
+        </div>
         <div className="flex items-center gap-5 font-mono uppercase tracking-[0.1em]">
           <a href={profile.github} target="_blank" rel="noreferrer" className="hover:text-secondary">
             GitHub
